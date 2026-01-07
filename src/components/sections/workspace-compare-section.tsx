@@ -22,7 +22,7 @@ export function WorkspaceCompareSection() {
           align="center"
         />
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-2">
+        <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {workspaceCompare.plans.map((plan) => {
             const isEnterprise = plan.variant === "enterprise";
             const cardSurface = isEnterprise
@@ -52,95 +52,105 @@ export function WorkspaceCompareSection() {
             return (
               <article
                 key={plan.id}
-                className={clsx(cardBaseStyles, cardSurface)}
+                className={clsx(cardBaseStyles, cardSurface, "flex flex-col")}
               >
-              <div className="absolute inset-px rounded-[26px] border border-white/10 opacity-50 blur-3xl" />
-              <div
-                className={clsx(
-                  "relative flex h-full flex-col gap-8",
-                  headingColor
-                )}
-              >
-                <div>
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span
-                      className={clsx(
-                        "inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em]",
-                        badgeColor
-                      )}
-                    >
-                      {plan.badge}
-                    </span>
-                    <span
-                      className={clsx(
-                        "inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold",
-                        plan.variant === "enterprise" ? tagColor : secondaryTagColor
-                      )}
-                    >
-                      {plan.variant === "enterprise" ? "Premium" : "Popular"}
-                    </span>
-                  </div>
-                  <h3 className="mt-6 text-2xl font-semibold tracking-tight">
-                    {plan.title}
-                  </h3>
-                  <p className={clsx("mt-2 text-sm", subheadingColor)}>
-                    {plan.tagline}
-                  </p>
-                </div>
-
-                <ul className="space-y-4 text-sm">
-                  {plan.points.map((point) => (
-                    <li
-                      key={point.highlight}
-                      className={clsx(
-                        "flex items-start gap-3 rounded-2xl p-3",
-                        bulletSurface
-                      )}
-                    >
-                      <span className="mt-1 h-2.5 w-2.5 flex-shrink-0 rounded-full bg-gradient-to-br from-[#4285F4] via-[#34A853] to-[#EA4335] shadow-[0_0_12px_rgba(66,133,244,0.5)]" />
-                      <p
+                <div className="absolute inset-px rounded-[26px] border border-white/10 opacity-50 blur-3xl" />
+                <div
+                  className={clsx(
+                    "relative flex h-full flex-col gap-6",
+                    headingColor
+                  )}
+                >
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span
                         className={clsx(
-                          "text-sm leading-relaxed",
-                          isEnterprise ? "text-white/85" : "text-[#1f2937]"
+                          "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
+                          badgeColor
                         )}
                       >
-                        <span className={clsx("font-semibold", highlightColor)}>
-                          {point.highlight}
+                        {plan.badge}
+                      </span>
+                      {plan.id === "business-standard" && (
+                        <span className="inline-flex items-center rounded-full bg-[#dff5ea] px-2 py-0.5 text-[10px] font-bold text-[#0f8c5f]">
+                          POPULAR
                         </span>
-                        {point.description ? (
-                          <>
-                            {" "}
-                            <span className={detailColor}>
-                              {point.description}
-                            </span>
-                          </>
-                        ) : null}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-auto flex flex-col gap-3 pt-2">
-                  {plan.footnote ? (
-                    <p className={clsx("text-xs", footnoteColor)}>
-                      {plan.footnote}
+                      )}
+                      {isEnterprise && (
+                        <span className="inline-flex items-center rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-bold text-white">
+                          PREMIUM
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="mt-4 text-xl font-bold tracking-tight">
+                      {plan.title}
+                    </h3>
+                    <div className="mt-4 flex items-baseline gap-1">
+                      <span className="text-3xl font-bold tracking-tight">
+                        {plan.price}
+                      </span>
+                      <span className={clsx("text-xs font-medium", subheadingColor)}>
+                        {plan.pricePeriod}
+                      </span>
+                    </div>
+                    <p className={clsx("mt-2 text-xs leading-relaxed", subheadingColor)}>
+                      {plan.tagline}
                     </p>
-                  ) : null}
-                  <Link
-                    href={plan.ctaHref}
-                    className={clsx(
-                      "group inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition",
-                      ctaClass
-                    )}
-                  >
-                    {plan.ctaLabel}
-                    <ArrowUpRight
-                      size={16}
-                      className="transition group-hover:translate-x-1 group-hover:-translate-y-1"
-                    />
-                  </Link>
+                  </div>
+
+                  <ul className="space-y-3 text-sm">
+                    {plan.points.map((point) => (
+                      <li
+                        key={point.highlight}
+                        className={clsx(
+                          "flex items-start gap-2 rounded-xl p-2.5",
+                          bulletSurface
+                        )}
+                      >
+                        <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-br from-[#4285F4] via-[#34A853] to-[#EA4335]" />
+                        <p
+                          className={clsx(
+                            "text-xs leading-snug",
+                            isEnterprise ? "text-white/85" : "text-[#1f2937]"
+                          )}
+                        >
+                          <span className={clsx("font-semibold", highlightColor)}>
+                            {point.highlight}
+                          </span>
+                          {point.description ? (
+                            <>
+                              {" "}
+                              <span className={detailColor}>
+                                {point.description}
+                              </span>
+                            </>
+                          ) : null}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-auto flex flex-col gap-3 pt-4">
+                    {plan.footnote ? (
+                      <p className={clsx("text-[10px] leading-tight", footnoteColor)}>
+                        {plan.footnote}
+                      </p>
+                    ) : null}
+                    <Link
+                      href={plan.ctaHref}
+                      className={clsx(
+                        "group inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-xs font-semibold transition",
+                        ctaClass
+                      )}
+                    >
+                      {plan.ctaLabel}
+                      <ArrowUpRight
+                        size={14}
+                        className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      />
+                    </Link>
+                  </div>
                 </div>
-              </div>
               </article>
             );
           })}
